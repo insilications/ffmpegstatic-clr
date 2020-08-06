@@ -18,7 +18,7 @@ def open_auto(*args, **kwargs):
     not valid UTF-8 to avoid data corruption.
     """
     # 'encoding' and 'errors' are fourth and fifth positional arguments, so
-    # restrict the args tuple to (file, mode, buffering) at most
+    # restrict the args tuple to (file, mode, buffering) at most rg --only-matching -N -I dict
     assert len(args) <= 3
     assert 'encoding' not in kwargs
     assert 'errors' not in kwargs
