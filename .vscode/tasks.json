@@ -1,0 +1,16 @@
+{
+    "version": "2.0.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "stopOnEntry": true,
+            "pythonPath": "${config:python.pythonPath}",
+            "program": "${file}",
+            "console": "externalTerminal",
+            "redirectOutput": true,
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

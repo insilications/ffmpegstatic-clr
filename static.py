@@ -26,7 +26,7 @@ def open_auto(*args, **kwargs):
     return open(*args, encoding="utf-8", errors="surrogateescape", **kwargs)
 
 def main():
-    libs_file = "/insilications/cfg/test4"
+    libs_file = "/insilications/build/custom-apps/ffmpegstatic-clr/libs"
     libs_re = r"(extralibs_)(|avutil|avcodec|avformat|avdevice|avfilter|avresample|postproc|swscale|swresample)(?==)"
     if os.path.exists(libs_file):
         with open_auto(libs_file, 'r') as libs:
