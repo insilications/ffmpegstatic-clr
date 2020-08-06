@@ -1,5 +1,4 @@
-#!/bin/true
-#
+#!/usr/bin/python3
 
 import configparser
 import os
@@ -10,7 +9,7 @@ import textwrap
 import hashlib
 import shlex
 import sys
-from collections import OrderedDict
+from collections import defaultdict
 
 def open_auto(*args, **kwargs):
     """Open a file with UTF-8 encoding.
@@ -25,15 +24,21 @@ def open_auto(*args, **kwargs):
     assert 'errors' not in kwargs
     return open(*args, encoding="utf-8", errors="surrogateescape", **kwargs)
 
+
 def main():
     libs_file = "/insilications/build/custom-apps/ffmpegstatic-clr/libs"
     libs_re = r"(extralibs_)(|avutil|avcodec|avformat|avdevice|avfilter|avresample|postproc|swscale|swresample)(?==)"
+    libs_files_re = r"(-l[a-zA-Z0-9_\s\-\.+\/]*|-p[a-zA-Z0-9_\s\-\.+\/]*)"
+    libs_dict = defaultdict(list)
     if os.path.exists(libs_file):
         with open_auto(libs_file, 'r') as libs:
                 libs_lines = libs.readlines()
                 # print("{} \n".format(libs_lines))
                 for line in libs_lines:
                     # print("{} \n".format(line))
-                    print("{} \n".format(re.search(libs_re, line).group(0)))
+                    print("{} = {} \n".format(re.search(libs_re, line).group(0), re.search(libs_files_re, line).group(0).split()))
+                    libs_dict[re.search(libs_re, line).group(0)] = re.search(libs_files_re, line).group(0).split()
+                #print("{} \n".format(libs_dict))
+
 if __name__ == '__main__':
     main()
