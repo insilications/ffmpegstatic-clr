@@ -11,6 +11,13 @@ import shlex
 import sys
 from collections import defaultdict
 
+
+def write_out(filename, content, mode="w"):
+    """File.write convenience wrapper."""
+    with open_auto(filename, mode) as require_f:
+        require_f.write(content)
+
+
 def open_auto(*args, **kwargs):
     """Open a file with UTF-8 encoding.
 
@@ -31,11 +38,16 @@ def main():
     args = parser.parse_args()
     libs_file = args.libs_file
 
-    libs_re = re.compile(r"(EXTRALIBS-)(|avutil|avcodec|avformat|avdevice|avfilter|avresample|postproc|swscale|swresample|cpu_init|cws2fws|ffplay|ffprobe|ffmpeg)(?==)")
-    libs_files_re = re.compile(r"(-l[a-zA-Z0-9_\s\-\.+\/]*|-p[a-zA-Z0-9_\s\-\.+\/]*)")
+    libs_re = re.compile(r"(?<=EXTRALIBS-)(|avutil|avcodec|avformat|avdevice|avfilter|avresample|postproc|swscale|swresample|cpu_init|cws2fws|ffplay|ffprobe|ffmpeg)(?==)")
+    libs_files_re = re.compile(r"(?<==).+$")
     lib_list_re_exclude = re.compile(r"(-pthread|-L[a-zA-Z0-9_\-+\/.]*)")
     lib_list_re_try = re.compile(r"(?<=-l)[a-zA-Z0-9_\-+\/.]*")
     libs_dict = defaultdict(list)
+
+    libs_out_file = os.path.join(os.path.dirname(libs_file), 'libs_var.sh')
+    if os.path.exists(libs_out_file):
+        os.remove(libs_out_file)
+
     if os.path.exists(libs_file):
         with open_auto(libs_file, 'r') as libs:
                 libs_lines = libs.readlines()
@@ -47,7 +59,10 @@ def main():
                     ff_lib = re.search(libs_re, line).group(0)
                     found = ""
                     # print("{} \n".format(re.search(libs_re, line).group(0)))
-                    libs_files_list = re.search(libs_files_re, line).group(0).split()
+                    match = re.search(libs_files_re, line)
+                    if not match:
+                        continue
+                    libs_files_list = match.group(0).split()
                     for lib in libs_files_list:
                         if re.search(lib_list_re_exclude, lib):
                             libs_dict[ff_lib].append(lib)
@@ -97,8 +112,10 @@ def main():
                                 # print_fatal("Not found {}: {}".format(rg_command, err))
                                 if (breakIt == False):
                                     libs_dict[ff_lib].append("-l{}".format(lib_file_pre))
-                    print("{}=\"{}\"".format(ff_lib, " ".join(libs_dict[ff_lib])))
+                    print("{}_extralibs=\"{}\"".format(ff_lib, " ".join(libs_dict[ff_lib])))
                     print("\n\n")
+                    write_out(libs_out_file, '{}_extralibs=\"{}\"\n'.format(ff_lib, " ".join(libs_dict[ff_lib])), "a")
+
 
 if __name__ == '__main__':
     main()
