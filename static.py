@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import configparser
+import argparse
 import os
 import re
 import subprocess
@@ -26,7 +26,11 @@ def open_auto(*args, **kwargs):
 
 
 def main():
-    libs_file = "/insilications/build/custom-apps/ffmpegstatic-clr/libs"
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-l", "--libfile", dest="libs_file", action="store", default="ffbuild/libs.mak", help="Set lib file to use")
+    args = parser.parse_args()
+    libs_file = args.libs_file
+
     libs_re = re.compile(r"(extralibs_)(|avutil|avcodec|avformat|avdevice|avfilter|avresample|postproc|swscale|swresample)(?==)")
     libs_files_re = re.compile(r"(-l[a-zA-Z0-9_\s\-\.+\/]*|-p[a-zA-Z0-9_\s\-\.+\/]*)")
     lib_list_re_exclude = re.compile(r"(-pthread|-L[a-zA-Z0-9_\-+\/.]*)")
@@ -50,10 +54,11 @@ def main():
                             # print("exclude: {}".format(lib))
                             continue
                         if re.search(lib_list_re_try, lib):
-                            lib_file_re_s = "lib{}".format(re.search(lib_list_re_try, lib).group(0))
+                            lib_file_pre = re.search(lib_list_re_try, lib).group(0)
+                            lib_file_re_s = "lib{}".format(lib_file_pre)
                             lib_file_re = re.escape(lib_file_re_s)
                             # print("try: {}.a".format(lib_file_re_s))
-                            rg_command = "rg --only-matching --no-line-number --no-filename --pcre2 '^/(usr/|usr.*)(lib|lib64)/[a-zA-Z0-9._+-]*{}\.a$'".format(lib_file_re)
+                            rg_command = "rg --only-matching --no-line-number --no-filename --pcre2 '^/(usr/|usr.*)(lib|lib64)/[a-zA-Z0-9._+-]*{}(\.a|_static\.a)$'".format(lib_file_re)
                             try:
                                 process = subprocess.run(rg_command, check=True, shell=True, stdout=subprocess.PIPE, text=True, universal_newlines=True, cwd="/insilications/build/clearlinux/packages")
                                 libs_dict[ff_lib].append(process.stdout.rstrip("\n"))
@@ -62,22 +67,38 @@ def main():
                             except subprocess.CalledProcessError as err:
                                 compile_usr_re = r"^/(usr/|usr.*)(lib|lib64)/[a-zA-Z0-9._+-]*{}\.a$".format(lib_file_re)
                                 usr_re = re.compile(compile_usr_re)
+                                breakIt = False
                                 for dirpath, dirnames, filenames in os.walk("/usr/lib64", followlinks=True):
-                                    for filename in filenames:
-                                        full_match = os.path.join(dirpath, filename)
-                                        if usr_re.match(full_match):
-                                            libs_dict[ff_lib].append(full_match)
-                                            # print("Found usr_re: {}".format(full_match))
-                                            break
+                                    if breakIt == False:
+                                        for filename in filenames:
+                                            if breakIt == False:
+                                                full_match = os.path.join(dirpath, filename)
+                                                if usr_re.match(full_match):
+                                                    libs_dict[ff_lib].append(full_match)
+                                                    # print("Found usr_re: {}".format(full_match))
+                                                    breakIt = True
+                                            else:
+                                                break
+                                    else:
+                                        break
                                 for dirpath, dirnames, filenames in os.walk("/usr/lib", followlinks=True):
-                                    for filename in filenames:
-                                        full_match = os.path.join(dirpath, filename)
-                                        if usr_re.match(full_match):
-                                            libs_dict[ff_lib].append(full_match)
-                                            # print("Found usr_re: {}".format(full_match))
-                                            break
+                                    if breakIt == False:
+                                        for filename in filenames:
+                                            if breakIt == False:
+                                                full_match = os.path.join(dirpath, filename)
+                                                if usr_re.match(full_match):
+                                                    libs_dict[ff_lib].append(full_match)
+                                                    # print("Found usr_re: {}".format(full_match))
+                                                    breakIt = True
+                                            else:
+                                                break
+                                    else:
+                                        break
                                 # print_fatal("Not found {}: {}".format(rg_command, err))
+                                if (breakIt == False):
+                                    libs_dict[ff_lib].append("-l{}".format(lib_file_pre))
                     print("{}=\"{}\"".format(ff_lib, " ".join(libs_dict[ff_lib])))
                     print("\n\n")
+
 if __name__ == '__main__':
     main()
