@@ -101,6 +101,32 @@ def main():
                                             break
                                 else:
                                     break
+                            for dirpath, dirnames, filenames in os.walk("/usr/cuda", followlinks=True):
+                                if breakIt == False:
+                                    for filename in filenames:
+                                        if breakIt == False:
+                                            full_match = os.path.join(dirpath, filename)
+                                            if usr_re.match(full_match):
+                                                libs_dict[ff_lib].append(full_match)
+                                                # print("Found usr_re: {}".format(full_match))
+                                                breakIt = True
+                                        else:
+                                            break
+                                else:
+                                    break
+                            for dirpath, dirnames, filenames in os.walk("/usr/nvidia", followlinks=True):
+                                if breakIt == False:
+                                    for filename in filenames:
+                                        if breakIt == False:
+                                            full_match = os.path.join(dirpath, filename)
+                                            if usr_re.match(full_match):
+                                                libs_dict[ff_lib].append(full_match)
+                                                # print("Found usr_re: {}".format(full_match))
+                                                breakIt = True
+                                        else:
+                                            break
+                                else:
+                                    break
                             # print_fatal("Not found {}: {}".format(rg_command, err))
                             if (breakIt == False):
                                 libs_dict[ff_lib].append("-l{}".format(lib_file_pre))
