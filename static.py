@@ -72,46 +72,38 @@ def main():
                             lib_file_pre = re.search(lib_list_re_try, lib).group(0)
                             lib_file_re_s = "lib{}".format(lib_file_pre)
                             lib_file_re = re.escape(lib_file_re_s)
-                            # print("try: {}.a".format(lib_file_re_s))
-                            rg_command = "rg --only-matching --no-line-number --no-filename --pcre2 '^/(usr/|usr.*)(lib|lib64)/[a-zA-Z0-9._+-]*{}(\.a|_static\.a)$'".format(lib_file_re)
-                            try:
-                                process = subprocess.run(rg_command, check=True, shell=True, stdout=subprocess.PIPE, text=True, universal_newlines=True, cwd="/insilications/build/clearlinux/packages")
-                                libs_dict[ff_lib].append(process.stdout.rstrip("\n"))
-                                # print("Found rg: {}".format(process.stdout.rstrip("\n")))
-                                continue
-                            except subprocess.CalledProcessError as err:
-                                compile_usr_re = r"^/(usr/|usr.*)(lib|lib64)/[a-zA-Z0-9._+-]*{}\.a$".format(lib_file_re)
-                                usr_re = re.compile(compile_usr_re)
-                                breakIt = False
-                                for dirpath, dirnames, filenames in os.walk("/usr/lib64", followlinks=True):
-                                    if breakIt == False:
-                                        for filename in filenames:
-                                            if breakIt == False:
-                                                full_match = os.path.join(dirpath, filename)
-                                                if usr_re.match(full_match):
-                                                    libs_dict[ff_lib].append(full_match)
-                                                    # print("Found usr_re: {}".format(full_match))
-                                                    breakIt = True
-                                            else:
-                                                break
-                                    else:
-                                        break
-                                for dirpath, dirnames, filenames in os.walk("/usr/lib", followlinks=True):
-                                    if breakIt == False:
-                                        for filename in filenames:
-                                            if breakIt == False:
-                                                full_match = os.path.join(dirpath, filename)
-                                                if usr_re.match(full_match):
-                                                    libs_dict[ff_lib].append(full_match)
-                                                    # print("Found usr_re: {}".format(full_match))
-                                                    breakIt = True
-                                            else:
-                                                break
-                                    else:
-                                        break
-                                # print_fatal("Not found {}: {}".format(rg_command, err))
-                                if (breakIt == False):
-                                    libs_dict[ff_lib].append("-l{}".format(lib_file_pre))
+                            compile_usr_re = r"^/(usr/|usr.*)(lib|lib64)/[a-zA-Z0-9._+-]*{}\.a$".format(lib_file_re)
+                            usr_re = re.compile(compile_usr_re)
+                            breakIt = False
+                            for dirpath, dirnames, filenames in os.walk("/usr/lib64", followlinks=True):
+                                if breakIt == False:
+                                    for filename in filenames:
+                                        if breakIt == False:
+                                            full_match = os.path.join(dirpath, filename)
+                                            if usr_re.match(full_match):
+                                                libs_dict[ff_lib].append(full_match)
+                                                # print("Found usr_re: {}".format(full_match))
+                                                breakIt = True
+                                        else:
+                                            break
+                                else:
+                                    break
+                            for dirpath, dirnames, filenames in os.walk("/usr/lib", followlinks=True):
+                                if breakIt == False:
+                                    for filename in filenames:
+                                        if breakIt == False:
+                                            full_match = os.path.join(dirpath, filename)
+                                            if usr_re.match(full_match):
+                                                libs_dict[ff_lib].append(full_match)
+                                                # print("Found usr_re: {}".format(full_match))
+                                                breakIt = True
+                                        else:
+                                            break
+                                else:
+                                    break
+                            # print_fatal("Not found {}: {}".format(rg_command, err))
+                            if (breakIt == False):
+                                libs_dict[ff_lib].append("-l{}".format(lib_file_pre))
                     print("{}_extralibs=\"{}\"".format(ff_lib, " ".join(libs_dict[ff_lib])))
                     print("\n\n")
                     write_out(libs_out_file, '{}_extralibs=\"{}\"\n'.format(ff_lib, " ".join(libs_dict[ff_lib])), "a")
