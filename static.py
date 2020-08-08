@@ -31,7 +31,7 @@ def main():
     args = parser.parse_args()
     libs_file = args.libs_file
 
-    libs_re = re.compile(r"(extralibs_)(|avutil|avcodec|avformat|avdevice|avfilter|avresample|postproc|swscale|swresample)(?==)")
+    libs_re = re.compile(r"(EXTRALIBS-)(|avutil|avcodec|avformat|avdevice|avfilter|avresample|postproc|swscale|swresample|cpu_init|cws2fws|ffplay|ffprobe|ffmpeg)(?==)")
     libs_files_re = re.compile(r"(-l[a-zA-Z0-9_\s\-\.+\/]*|-p[a-zA-Z0-9_\s\-\.+\/]*)")
     lib_list_re_exclude = re.compile(r"(-pthread|-L[a-zA-Z0-9_\-+\/.]*)")
     lib_list_re_try = re.compile(r"(?<=-l)[a-zA-Z0-9_\-+\/.]*")
