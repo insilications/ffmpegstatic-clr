@@ -40,7 +40,7 @@ def main():
 
     libs_re = re.compile(r"(?<=EXTRALIBS-)(|avutil|avcodec|avformat|avdevice|avfilter|avresample|postproc|swscale|swresample|cpu_init|cws2fws|ffplay|ffprobe|ffmpeg)(?==)")
     libs_files_re = re.compile(r"(?<==).+$")
-    lib_list_re_exclude = re.compile(r"(-pthread|-L[a-zA-Z0-9_\-+\/.]*)")
+    lib_list_re_exclude = re.compile(r"(-lpthread\b|-lstdc\+\+\B|-lgcc_s\b|-lgcc\b|-lrt\b|-ldl\b|-lm\b|-pthread|-L[a-zA-Z0-9_\-+\/.]*)")
     lib_list_re_try = re.compile(r"(?<=-l)[a-zA-Z0-9_\-+\/.]*")
     libs_dict = defaultdict(list)
 
@@ -72,7 +72,7 @@ def main():
                             lib_file_pre = re.search(lib_list_re_try, lib).group(0)
                             lib_file_re_s = "lib{}".format(lib_file_pre)
                             lib_file_re = re.escape(lib_file_re_s)
-                            compile_usr_re = r"^/(usr/|usr.*)(lib|lib64)/[a-zA-Z0-9._+-]*{}(\.a|_static\.a)$".format(lib_file_re)
+                            compile_usr_re = r"^/(usr/|usr.*)(lib|lib64)/[a-zA-Z0-9._+-\/]*{}(\.a|_static\.a)$".format(lib_file_re)
                             usr_re = re.compile(compile_usr_re)
                             breakIt = False
                             for dirpath, dirnames, filenames in os.walk("/usr/lib64", followlinks=True):
