@@ -1,4 +1,4 @@
-EXTRALIBS-avdevice=-lm -L/usr/lib64/valgrind -ldrm -lm -lcoregrind-amd64-linux -lvex-amd64-linux -lgcc -lxcb -lXau -lXdmcp -lxcb-shm -lxcb -lXau -lXdmcp -lxcb-shape -lxcb -lXau -lXdmcp -lxcb-xfixes -lxcb-render -lxcb-shape -lxcb -lXau -lXdmcp -lGL
+EXTRALIBS-avdevice=-lm -ldrm -lm -lxcb -lXau -lXdmcp -lxcb-shm -lxcb -lXau -lXdmcp -lxcb-shape -lxcb -lXau -lXdmcp -lxcb-xfixes -lxcb-render -lxcb-shape -lxcb -lXau -lXdmcp -lGL -Wl,-rpath,/usr/lib64 -Wl,--enable-new-dtags -lSDL2 -Wl,--no-undefined -lm -ldl -lpthread -lrt
 EXTRALIBS-avfilter=-pthread -lm -lfribidi -lass -lm -lfontconfig -lexpat -lfribidi -lfreetype -lbz2 -lpng16 -lm -lz -lm -lz -lharfbuzz -lm -lglib-2.0 -pthread -lpcre -pthread -lgraphite2 -lbrotlidec -lbrotlicommon -lnppig -lnppicc -lnppc -lnppidei -lva -lvidstab -lm -lgomp -lpthread -lzimg -lstdc++ -lOpenCL -lfontconfig -lexpat -lfreetype -lbz2 -lpng16 -lm -lz -lm -lz -lharfbuzz -lm -lglib-2.0 -pthread -lpcre -pthread -lgraphite2 -lbrotlidec -lbrotlicommon -lfreetype -lbz2 -lpng16 -lm -lz -lm -lz -lharfbuzz -lm -lglib-2.0 -pthread -lpcre -pthread -lgraphite2 -lbrotlidec -lbrotlicommon -lmfx -lstdc++ -ldl
 EXTRALIBS-swscale=-lm
 EXTRALIBS-postproc=-lm
@@ -6,8 +6,8 @@ EXTRALIBS-avformat=-lm -lxml2 -lz -llzma -lm -lbz2 -lvapoursynth-script -lpython
 EXTRALIBS-avcodec=-lvpx -lm -lpthread -lvpx -lm -lpthread -lvpx -lm -lpthread -lvpx -lm -lpthread -lwebpmux -lm -lwebp -lm -pthread -pthread -lm -llzma -ldav1d -pthread -ldl -lsnappy -lstdc++ -lz -laom -lm -lpthread -lfdk-aac -lm -lgsm -lmp3lame -lm -lopenjp2 -lm -lopus -lm -lspeex -lm -ltheoraenc -ltheoradec -logg -lvorbis -lm -logg -lvorbisenc -lvorbis -lm -logg -lwebp -lm -pthread -lx264 -lpthread -lm -ldl -L/usr//usr/lib64 -lx265 -lstdc++ -lm -lgcc_s -lgcc -lgcc_s -lgcc -lrt -ldl -lnuma -lxvidcore -lva -lmfx -lstdc++ -ldl
 EXTRALIBS-swresample=-lm
 EXTRALIBS-avresample=-lm
-EXTRALIBS-avutil=-pthread -lva-drm -lva -lvdpau -lX11 -lm -L/usr/lib64/valgrind -ldrm -lm -lcoregrind-amd64-linux -lvex-amd64-linux -lgcc -lmfx -lstdc++ -ldl -lOpenCL -lva
-EXTRALIBS-ffplay=
+EXTRALIBS-avutil=-pthread -lva-drm -lva -lvdpau -lX11 -lm -ldrm -lm -lmfx -lstdc++ -ldl -lOpenCL -lva
+EXTRALIBS-ffplay=-Wl,-rpath,/usr/lib64 -Wl,--enable-new-dtags -lSDL2 -Wl,--no-undefined -lm -ldl -lpthread -lrt
 EXTRALIBS-ffprobe=
 EXTRALIBS-ffmpeg=
 EXTRALIBS-cpu_init=-pthread
