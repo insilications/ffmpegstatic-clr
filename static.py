@@ -50,8 +50,8 @@ def main():
     Bdynamic = "-Wl,-Bdynamic"
     Slib64 = "-L/usr/lib64"
     Slib = "-L/usr/lib"
-    Scuda = "-L/usr/cuda"
-    Snvidia = "-L/usr/nvidia"
+    Scuda = "-L/usr/cuda/lib64"
+    Snvidia = "-L/usr/nvidia/lib"
 
     lib_list_re_try = re.compile(r"(?<=-l)[a-zA-Z0-9_\-+\/.]*")
     libs_dict = defaultdict(list)
