@@ -91,6 +91,8 @@ def main():
                         lib_file_re = re.escape(lib_file_re_s)
                         compile_usr_re = r"^/(usr/|usr.*)(lib|lib64)/[a-zA-Z0-9._+-\/]*{}(\.a|_static\.a)$".format(lib_file_re)
                         usr_re = re.compile(compile_usr_re)
+                        compile_get_lib_re = r"(?<=lib).+(?=\.a)"
+                        get_static_lib_re = re.compile(compile_get_lib_re)
                         breakIt = False
                         for dirpath, dirnames, filenames in os.walk("/usr/lib64", followlinks=True):
                             if breakIt is False:
@@ -98,13 +100,14 @@ def main():
                                     if breakIt is False:
                                         full_match = os.path.join(dirpath, filename)
                                         if usr_re.match(full_match):
+                                            static_lib = re.search(get_static_lib_re, filename).group(0)
                                             if (shared == 1) or (shared == 0):
-                                                libs_dict[ff_lib].append("{} {}".format(Bstatic, lib))
+                                                libs_dict[ff_lib].append("{} -l{}".format(Bstatic, static_lib))
                                                 # print("Found usr_re: {}".format(full_match))
                                                 breakIt = True
                                                 shared = 2
                                             else:
-                                                libs_dict[ff_lib].append(lib)
+                                                libs_dict[ff_lib].append("-l{}".format(static_lib))
                                                 # print("Found usr_re: {}".format(full_match))
                                                 breakIt = True
                                                 shared = 2
@@ -118,13 +121,14 @@ def main():
                                     if breakIt is False:
                                         full_match = os.path.join(dirpath, filename)
                                         if usr_re.match(full_match):
+                                            static_lib = re.search(get_static_lib_re, filename).group(0)
                                             if (shared == 1) or (shared == 0):
-                                                libs_dict[ff_lib].append("{} {}".format(Bstatic, lib))
+                                                libs_dict[ff_lib].append("{} -l{}".format(Bstatic, static_lib))
                                                 # print("Found usr_re: {}".format(full_match))
                                                 breakIt = True
                                                 shared = 2
                                             else:
-                                                libs_dict[ff_lib].append(lib)
+                                                libs_dict[ff_lib].append("-l{}".format(static_lib))
                                                 # print("Found usr_re: {}".format(full_match))
                                                 breakIt = True
                                                 shared = 2
@@ -139,12 +143,13 @@ def main():
                                         full_match = os.path.join(dirpath, filename)
                                         if usr_re.match(full_match):
                                             if (shared == 1) or (shared == 0):
-                                                libs_dict[ff_lib].append("{} {}".format(Bstatic, lib))
+                                                static_lib = re.search(get_static_lib_re, filename).group(0)
+                                                libs_dict[ff_lib].append("{} -l{}".format(Bstatic, static_lib))
                                                 # print("Found usr_re: {}".format(full_match))
                                                 breakIt = True
                                                 shared = 2
                                             else:
-                                                libs_dict[ff_lib].append(lib)
+                                                libs_dict[ff_lib].append("-l{}".format(static_lib))
                                                 # print("Found usr_re: {}".format(full_match))
                                                 breakIt = True
                                                 shared = 2
@@ -159,12 +164,13 @@ def main():
                                         full_match = os.path.join(dirpath, filename)
                                         if usr_re.match(full_match):
                                             if (shared == 1) or (shared == 0):
-                                                libs_dict[ff_lib].append("{} {}".format(Bstatic, lib))
+                                                static_lib = re.search(get_static_lib_re, filename).group(0)
+                                                libs_dict[ff_lib].append("{} -l{}".format(Bstatic, static_lib))
                                                 # print("Found usr_re: {}".format(full_match))
                                                 breakIt = True
                                                 shared = 2
                                             else:
-                                                libs_dict[ff_lib].append(lib)
+                                                libs_dict[ff_lib].append("-l{}".format(static_lib))
                                                 # print("Found usr_re: {}".format(full_match))
                                                 breakIt = True
                                                 shared = 2

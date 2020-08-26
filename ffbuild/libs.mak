@@ -1,13 +1,13 @@
-EXTRALIBS-avdevice=-lm -ldrm -lm -lxcb -lXau -lXdmcp -lxcb-shm -lxcb -lXau -lXdmcp -lxcb-shape -lxcb -lXau -lXdmcp -lxcb-xfixes -lxcb-render -lxcb-shape -lxcb -lXau -lXdmcp -lGL -Wl,-rpath,/usr/lib64 -Wl,--enable-new-dtags -lSDL2 -Wl,--no-undefined -lm -ldl -lpthread -lrt
+EXTRALIBS-avdevice=-lm -ldrm -lm -lxcb -lXau -lXdmcp -lxcb-shm -lxcb -lXau -lXdmcp -lxcb-shape -lxcb -lXau -lXdmcp -lxcb-xfixes -lxcb-render -lxcb-shape -lxcb -lXau -lXdmcp -lGL -lSDL2 -Wl,--no-undefined -lm -ldl -lpthread -lrt
 EXTRALIBS-avfilter=-pthread -lm -lfribidi -lass -lm -lfontconfig -lexpat -lfribidi -lfreetype -lbz2 -lpng16 -lm -lz -lm -lz -lharfbuzz -lm -lglib-2.0 -pthread -lpcre -pthread -lgraphite2 -lbrotlidec -lbrotlicommon -lnppig -lnppicc -lnppc -lnppidei -lva -lvidstab -lm -lgomp -lpthread -lzimg -lstdc++ -lOpenCL -lfontconfig -lexpat -lfreetype -lbz2 -lpng16 -lm -lz -lm -lz -lharfbuzz -lm -lglib-2.0 -pthread -lpcre -pthread -lgraphite2 -lbrotlidec -lbrotlicommon -lfreetype -lbz2 -lpng16 -lm -lz -lm -lz -lharfbuzz -lm -lglib-2.0 -pthread -lpcre -pthread -lgraphite2 -lbrotlidec -lbrotlicommon -lmfx -lstdc++ -ldl
 EXTRALIBS-swscale=-lm
 EXTRALIBS-postproc=-lm
 EXTRALIBS-avformat=-lm -lxml2 -lz -llzma -lm -lbz2 -lvapoursynth-script -lpython3.8 -lcrypt -lpthread -ldl -lutil -lm -lvapoursynth -lzimg -ldl -lzimg -lstdc++ -lbluray -ldl -lpthread -lxml2 -lz -llzma -lm -lfontconfig -lexpat -lfreetype -lbz2 -lpng16 -lm -lz -lm -lz -lharfbuzz -lm -lglib-2.0 -pthread -lpcre -pthread -lgraphite2 -lbrotlidec -lbrotlicommon -lz -lssl -lcrypto -lz -ldl -pthread -lrtmp -lz -lgmp -lgnutls -pthread -lgmp -lunistring -latomic -ltasn1 -lidn2 -lunistring -lp11-kit -lhogweed -lgmp -lnettle -lsrt -lstdc++ -lm -lgcov -lgcc_s -lgcc -lpthread -lc -lgcc_s -lgcc -lssl -lcrypto -lz -ldl -pthread
-EXTRALIBS-avcodec=-lvpx -lm -lpthread -lvpx -lm -lpthread -lvpx -lm -lpthread -lvpx -lm -lpthread -lwebpmux -lm -lwebp -lm -pthread -pthread -lm -llzma -ldav1d -pthread -ldl -lsnappy -lstdc++ -lz -laom -lm -lpthread -lfdk-aac -lm -lgsm -lmp3lame -lm -lopenjp2 -lm -lopus -lm -lspeex -lm -ltheoraenc -ltheoradec -logg -lvorbis -lm -logg -lvorbisenc -lvorbis -lm -logg -lwebp -lm -pthread -lx264 -lpthread -lm -ldl -L/usr//usr/lib64 -lx265 -lstdc++ -lm -lgcc_s -lgcc -lgcc_s -lgcc -lrt -ldl -lnuma -lxvidcore -lva -lmfx -lstdc++ -ldl
+EXTRALIBS-avcodec=-lvpx -lm -lpthread -lvpx -lm -lpthread -lvpx -lm -pthread -lvpx -lm -lpthread -lwebpmux -lm -lwebp -lm -pthread -pthread -lm -llzma -ldav1d -pthread -ldl -lsnappy -lstdc++ -lz -laom -lm -lpthread -lfdk-aac -lm -lgsm -lmp3lame -lm -lopenjp2 -lm -lopus -lm -lspeex -lm -ltheoraenc -ltheoradec -logg -lvorbis -lm -logg -lvorbisenc -lvorbis -lm -logg -lwebp -lm -pthread -lx264 -lpthread -lm -ldl -lx265 -lstdc++ -lm -lgcc_s -lgcc -lgcc_s -lgcc -lrt -ldl -lxvidcore -lva -lmfx -lstdc++ -ldl
 EXTRALIBS-swresample=-lm
 EXTRALIBS-avresample=-lm
 EXTRALIBS-avutil=-pthread -lva-drm -lva -lvdpau -lX11 -lm -ldrm -lm -lmfx -lstdc++ -ldl -lOpenCL -lva
-EXTRALIBS-ffplay=-Wl,-rpath,/usr/lib64 -Wl,--enable-new-dtags -lSDL2 -Wl,--no-undefined -lm -ldl -lpthread -lrt
+EXTRALIBS-ffplay=-lSDL2 -Wl,--no-undefined -lm -ldl -lpthread -lrt
 EXTRALIBS-ffprobe=
 EXTRALIBS-ffmpeg=
 EXTRALIBS-cpu_init=-pthread
