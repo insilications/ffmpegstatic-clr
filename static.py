@@ -43,9 +43,7 @@ def main():
     )
     libs_files_re = re.compile(r"(?<==).+$")
     lib_list_re_exclude = re.compile(r"(-L[a-zA-Z0-9_\-+\/.]*|-W[a-zA-Z0-9_\-+\/.,]*)")
-    lib_list_re_exclude_so = re.compile(
-        r"(-lc\b|-lGL\b|-lgomp\b|-lpthread\b|-lstdc\+\+\B|-lgcc_s\b|-lgcc\b|-lrt\b|-ldl\b|-lm\b|-pthread\b)"
-    )
+    lib_list_re_exclude_so = re.compile(r"(-lc\b|-lGL\b|-lgomp\b|-lpthread\b|-lstdc\+\+\B|-lgcc_s\b|-lgcc\b|-lrt\b|-ldl\b|-lm\b|-pthread\b)")
     Bstatic = "-Wl,-Bstatic"
     Bdynamic = "-Wl,-Bdynamic"
 
