@@ -112,6 +112,7 @@ def main():
                                 # print("{0}".format(f.path))
                         if breakIt is True:
                             continue
+                        libs_dict[ff_lib].append(lib)
                 print('{}_extralibs="{}"'.format(ff_lib, " ".join(libs_dict[ff_lib])))
                 write_out(libs_file_out_file, '{}_extralibs="{}"\n'.format(ff_lib, " ".join(libs_dict[ff_lib])), "a")
     # for k, l in libs_dict.items():
