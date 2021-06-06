@@ -82,99 +82,33 @@ def main():
                         print("lib_matched_string: {0}".format(lib_matched_string))
                         lib_matched_string_escaped = re.escape(lib_matched_string)
                         print("lib_matched_string_escaped: {0}".format(lib_matched_string_escaped))
-                        # print("Found lib_file_re: {}".format(lib_file_re))
-        #                 compile_usr_re = r"^/(usr|usr/[a-zA-Z0-9._+-\/]*)/(lib|lib64)/[a-zA-Z0-9._+-\/]*{}(\.a|_static\.a)$".format(lib_file_re)
-        #                 # compile_usr_re = r"^/(usr/|usr.*)(lib|lib64)/[a-zA-Z0-9._+-\/]*{}(\.a|_static\.a)$".format(lib_file_re)
-        #                 usr_re = re.compile(compile_usr_re)
-        #                 breakIt = False
-        #                 for dirpath, dirnames, filenames in os.walk("/usr/cuda/lib64", followlinks=True):
-        #                     if breakIt is False:
-        #                         for filename in filenames:
-        #                             if breakIt is False:
-        #                                 full_match = os.path.join(dirpath, filename)
-        #                                 if usr_re.match(full_match):
-        #                                     if (shared == 1) or (shared == 0):
-        #                                         libs_dict[ff_lib].append("{} {}".format(Bstatic, full_match))
-        #                                         # print("Found usr_re: {}".format(full_match))
-        #                                         breakIt = True
-        #                                         shared = 2
-        #                                     else:
-        #                                         libs_dict[ff_lib].append("{}".format(full_match))
-        #                                         # print("Found usr_re: {}".format(full_match))
-        #                                         breakIt = True
-        #                                         shared = 2
-        #                             else:
-        #                                 break
-        #                     else:
-        #                         break
-        #                 for dirpath, dirnames, filenames in os.walk("/usr/nvidia", followlinks=True):
-        #                     if breakIt is False:
-        #                         for filename in filenames:
-        #                             if breakIt is False:
-        #                                 full_match = os.path.join(dirpath, filename)
-        #                                 if usr_re.match(full_match):
-        #                                     if (shared == 1) or (shared == 0):
-        #                                         libs_dict[ff_lib].append("{} {}".format(Bstatic, full_match))
-        #                                         # print("Found usr_re: {}".format(full_match))
-        #                                         breakIt = True
-        #                                         shared = 2
-        #                                     else:
-        #                                         libs_dict[ff_lib].append("{}".format(full_match))
-        #                                         # print("Found usr_re: {}".format(full_match))
-        #                                         breakIt = True
-        #                                         shared = 2
-        #                             else:
-        #                                 break
-        #                     else:
-        #                         break
-        #                 for dirpath, dirnames, filenames in os.walk("/usr/lib64", followlinks=True):
-        #                     if breakIt is False:
-        #                         for filename in filenames:
-        #                             if breakIt is False:
-        #                                 full_match = os.path.join(dirpath, filename)
-        #                                 if usr_re.match(full_match):
-        #                                     if (shared == 1) or (shared == 0):
-        #                                         libs_dict[ff_lib].append("{} {}".format(Bstatic, full_match))
-        #                                         # print("Found usr_re: {}".format(full_match))
-        #                                         breakIt = True
-        #                                         shared = 2
-        #                                     else:
-        #                                         libs_dict[ff_lib].append("{}".format(full_match))
-        #                                         # print("Found usr_re: {}".format(full_match))
-        #                                         breakIt = True
-        #                                         shared = 2
-        #                             else:
-        #                                 break
-        #                     else:
-        #                         break
-        #                 for dirpath, dirnames, filenames in os.walk("/usr/lib", followlinks=True):
-        #                     if breakIt is False:
-        #                         for filename in filenames:
-        #                             if breakIt is False:
-        #                                 full_match = os.path.join(dirpath, filename)
-        #                                 if usr_re.match(full_match):
-        #                                     if (shared == 1) or (shared == 0):
-        #                                         libs_dict[ff_lib].append("{} {}".format(Bstatic, full_match))
-        #                                         # print("Found usr_re: {}".format(full_match))
-        #                                         breakIt = True
-        #                                         shared = 2
-        #                                     else:
-        #                                         libs_dict[ff_lib].append("{}".format(full_match))
-        #                                         # print("Found usr_re: {}".format(full_match))
-        #                                         breakIt = True
-        #                                         shared = 2
-        #                             else:
-        #                                 break
-        #                     else:
-        #                         break
-        #                 # print_fatal("Not found {}: {}".format(rg_command, err))
-        #                 if breakIt is False:
-        #                     if (shared == 2) or (shared == 0):
-        #                         libs_dict[ff_lib].append("{} -l{}".format(Bdynamic, lib_file_pre))
-        #                         shared = 1
-        #                     else:
-        #                         libs_dict[ff_lib].append("-l{}".format(lib_file_pre))
-        #                         shared = 1
+                        # compile_usr_re = r"^/(usr|usr/[a-zA-Z0-9._+-\/]*)/(lib|lib64)/[a-zA-Z0-9._+-\/]*{}(\.a|_static\.a)$".format(lib_file_re)
+                        # lib_matched_path_re =
+                        test = r"{0}(\.a|_static\.a)$".format(lib_matched_string_escaped)
+                        print(test)
+                        lib_matched_path_re = re.compile(r"{0}(\.a|_static\.a)$".format(lib_matched_string_escaped))
+                        # breakIt = False
+                        # files = [f.name for f in os.scandir("/usr/local/cuda/lib64") if f.is_file() and os.path.splitext(f.name)[1].lower() in ".rpm"]
+                        # for dirpath, dirnames, filenames in os.walk("/usr/cuda/lib64", followlinks=True):
+                        #     if breakIt is False:
+                        #         for filename in filenames:
+                        #             if breakIt is False:
+                        #                 full_match = os.path.join(dirpath, filename)
+                        #                 if lib_matched_path_re.match(full_match):
+                        #                     if (shared == 1) or (shared == 0):
+                        #                         libs_dict[ff_lib].append("{} {}".format(Bstatic, full_match))
+                        #                         # print("Found usr_re: {}".format(full_match))
+                        #                         breakIt = True
+                        #                         shared = 2
+                        #                     else:
+                        #                         libs_dict[ff_lib].append("{}".format(full_match))
+                        #                         # print("Found usr_re: {}".format(full_match))
+                        #                         breakIt = True
+                        #                         shared = 2
+                        #             else:
+                        #                 break
+                        #     else:
+                        #         break
         # print('{}_extralibs="{}"'.format(ff_lib, " ".join(libs_dict[ff_lib])))
         # print("\n\n")
         # write_out(libs_file_out_file, '{}_extralibs="{}"\n'.format(ff_lib, " ".join(libs_dict[ff_lib])), "a")
