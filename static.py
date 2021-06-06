@@ -66,29 +66,65 @@ def main():
                 libs_line_matched_splitted = libs_line_matched.group(0).split()
                 # print("libs_line_matched_splitted[{0}]: {1}".format(ff_lib, libs_line_matched_splitted))
                 for lib in libs_line_matched_splitted:
+                    breakIt = False
                     if re.search(EXTRALIBSfile_line_exclude_re, lib):
                         libs_dict[ff_lib].append(lib)
                         continue
                         # print("exclude: {}".format(lib))
                     if re.search(EXTRALIBSfile_line_exclude_so_re, lib):
-                        libs_dict[ff_lib].append("{}".format(lib))
+                        libs_dict[ff_lib].append(lib)
                         continue
                         # print("exclude: {}".format(lib))
-                    # for k, l in libs_dict.items():
-                    #     print("libs_dict[{0}]: {1}".format(k, l))
                     if re.search(EXTRALIBSfile_line_lib_re, lib):
                         lib_matched = re.search(EXTRALIBSfile_line_lib_re, lib).group(0)
                         lib_matched_string = "lib{}".format(lib_matched)
-                        print("lib_matched_string: {0}".format(lib_matched_string))
+                        # print("lib_matched_string: {0}".format(lib_matched_string))
                         lib_matched_string_escaped = re.escape(lib_matched_string)
-                        print("lib_matched_string_escaped: {0}".format(lib_matched_string_escaped))
+                        # print("lib_matched_string_escaped: {0}".format(lib_matched_string_escaped))
                         # compile_usr_re = r"^/(usr|usr/[a-zA-Z0-9._+-\/]*)/(lib|lib64)/[a-zA-Z0-9._+-\/]*{}(\.a|_static\.a)$".format(lib_file_re)
                         # lib_matched_path_re =
-                        test = r"{0}(\.a|_static\.a)$".format(lib_matched_string_escaped)
-                        print(test)
+                        # test = r"{0}(\.a|_static\.a)$".format(lib_matched_string_escaped)
+                        # print(test)
                         lib_matched_path_re = re.compile(r"{0}(\.a|_static\.a)$".format(lib_matched_string_escaped))
-                        # breakIt = False
-                        # files = [f.name for f in os.scandir("/usr/local/cuda/lib64") if f.is_file() and os.path.splitext(f.name)[1].lower() in ".rpm"]
+                        # lib_matched_files = [f.name for f in os.scandir("/usr/local/cuda/lib64") if f.is_file() and os.path.splitext(f.name)[1].lower() in ".a"]
+                        # for lib_matched_file in lib_matched_files:
+                        #     print("{0}".format(lib_matched_file))
+                        for f in os.scandir("/usr/local/cuda/lib64"):
+                            if f.is_file() and os.path.splitext(f.name)[1].lower() in ".a":
+                                if lib_matched_path_re.match(f.name):
+                                    libs_dict[ff_lib].append(f.path)
+                                    breakIt = True
+                                    break
+                                    # print("{0}".format(f.path))
+                        if breakIt is True:
+                            continue
+                        for f in os.scandir("/usr/lib64"):
+                            if f.is_file() and os.path.splitext(f.name)[1].lower() in ".a":
+                                if lib_matched_path_re.match(f.name):
+                                    libs_dict[ff_lib].append(f.path)
+                                    breakIt = True
+                                    break
+                                    # print("{0}".format(f.path))
+                        if breakIt is True:
+                            continue
+                        for f in os.scandir("/usr/lib"):
+                            if f.is_file() and os.path.splitext(f.name)[1].lower() in ".a":
+                                if lib_matched_path_re.match(f.name):
+                                    libs_dict[ff_lib].append(f.path)
+                                    breakIt = True
+                                    break
+                                    # print("{0}".format(f.path))
+                        if breakIt is True:
+                            continue
+                        for f in os.scandir("/usr/nvidia/lib64"):
+                            if f.is_file() and os.path.splitext(f.name)[1].lower() in ".a":
+                                if lib_matched_path_re.match(f.name):
+                                    libs_dict[ff_lib].append(f.path)
+                                    breakIt = True
+                                    break
+                                    # print("{0}".format(f.path))
+                        if breakIt is True:
+                            continue
                         # for dirpath, dirnames, filenames in os.walk("/usr/cuda/lib64", followlinks=True):
                         #     if breakIt is False:
                         #         for filename in filenames:
@@ -109,9 +145,11 @@ def main():
                         #                 break
                         #     else:
                         #         break
-        # print('{}_extralibs="{}"'.format(ff_lib, " ".join(libs_dict[ff_lib])))
-        # print("\n\n")
-        # write_out(libs_file_out_file, '{}_extralibs="{}"\n'.format(ff_lib, " ".join(libs_dict[ff_lib])), "a")
+    for k, l in libs_dict.items():
+        print("libs_dict[{0}]: {1}".format(k, l))
+    # print('{}_extralibs="{}"'.format(ff_lib, " ".join(libs_dict[ff_lib])))
+    # print("\n\n")
+    # write_out(libs_file_out_file, '{}_extralibs="{}"\n'.format(ff_lib, " ".join(libs_dict[ff_lib])), "a")
 
 
 if __name__ == "__main__":
