@@ -8,7 +8,7 @@ import sys
 import textwrap
 import hashlib
 import shlex
-import sys
+import mmap
 from collections import defaultdict
 
 
@@ -38,12 +38,10 @@ def main():
     args = parser.parse_args()
     libs_file = args.libs_file
 
-    libs_re = re.compile(
-        r"(?<=EXTRALIBS-)(|avutil|avcodec|avformat|avdevice|avfilter|avresample|postproc|swscale|swresample|cpu_init|cws2fws|ffplay|ffprobe|ffmpeg)(?==)"
-    )
+    libs_re = re.compile(r"(?<=EXTRALIBS-)(?:sw(?:resamp|sca)le|av(?:filter|util)|avformat|c(?:pu_init|ws2fws)|(?:avdevic|ffprob)e|postproc|avcodec|ff(?:mpeg|play))")
     libs_files_re = re.compile(r"(?<==).+$")
     lib_list_re_exclude = re.compile(r"(-L[a-zA-Z0-9_\-+\/.]*|-W[a-zA-Z0-9_\-+\/.,]*)")
-    lib_list_re_exclude_so = re.compile(r"(-lc\b|-lGL\b|-lgomp\b|-lpthread\b|-lstdc\+\+\B|-lgcc_s\b|-lgcc\b|-lrt\b|-ldl\b|-lm\b|-pthread\b)")
+    lib_list_re_exclude_so = re.compile(r"\-(?:l(?:pthread|stdc\+\+|gcc|rt|GL|dl|[cm])|pthread)(?=\s)")
     Bstatic = "-Wl,-Bstatic"
     Bdynamic = "-Wl,-Bdynamic"
 
