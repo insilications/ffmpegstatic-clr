@@ -121,31 +121,10 @@ def main():
                                 # print("{0}".format(f.path))
                         if breakIt is True:
                             continue
-                        # for dirpath, dirnames, filenames in os.walk("/usr/cuda/lib64", followlinks=True):
-                        #     if breakIt is False:
-                        #         for filename in filenames:
-                        #             if breakIt is False:
-                        #                 full_match = os.path.join(dirpath, filename)
-                        #                 if lib_matched_path_re.match(full_match):
-                        #                     if (shared == 1) or (shared == 0):
-                        #                         libs_dict[ff_lib].append("{} {}".format(Bstatic, full_match))
-                        #                         # print("Found usr_re: {}".format(full_match))
-                        #                         breakIt = True
-                        #                         shared = 2
-                        #                     else:
-                        #                         libs_dict[ff_lib].append("{}".format(full_match))
-                        #                         # print("Found usr_re: {}".format(full_match))
-                        #                         breakIt = True
-                        #                         shared = 2
-                        #             else:
-                        #                 break
-                        #     else:
-                        #         break
-    for k, l in libs_dict.items():
-        print("libs_dict[{0}]: {1}".format(k, l))
-    # print('{}_extralibs="{}"'.format(ff_lib, " ".join(libs_dict[ff_lib])))
-    # print("\n\n")
-    # write_out(libs_file_out_file, '{}_extralibs="{}"\n'.format(ff_lib, " ".join(libs_dict[ff_lib])), "a")
+                print('{}_extralibs="{}"'.format(ff_lib, " ".join(libs_dict[ff_lib])))
+                write_out(libs_file_out_file, '{}_extralibs="{}"\n'.format(ff_lib, " ".join(libs_dict[ff_lib])), "a")
+    # for k, l in libs_dict.items():
+    #     print("libs_dict[{0}]: {1}".format(k, l))
 
 
 if __name__ == "__main__":
