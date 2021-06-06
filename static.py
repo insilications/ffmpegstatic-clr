@@ -55,11 +55,7 @@ def main():
             libs_lines = libs.readlines()
             # print("{} \n".format(libs_lines))
             for libs_line in libs_lines:
-                # print("{} \n".format(line))
-                # print("{} = {} \n".format(re.search(libs_re, line).group(0), re.search(libs_files_re, line).group(0).split()))
-                # libs_dict[re.search(libs_re, line).group(0)] = re.search(libs_files_re, line).group(0).split()
                 ff_lib = re.search(EXTRALIBSfile_re, libs_line).group(0)
-                # print("{} \n".format(re.search(libs_re, line).group(0)))
                 libs_line_matched = re.search(EXTRALIBSfile_line_re, libs_line)
                 if not libs_line_matched:
                     continue
@@ -81,14 +77,9 @@ def main():
                         # print("lib_matched_string: {0}".format(lib_matched_string))
                         lib_matched_string_escaped = re.escape(lib_matched_string)
                         # print("lib_matched_string_escaped: {0}".format(lib_matched_string_escaped))
-                        # compile_usr_re = r"^/(usr|usr/[a-zA-Z0-9._+-\/]*)/(lib|lib64)/[a-zA-Z0-9._+-\/]*{}(\.a|_static\.a)$".format(lib_file_re)
-                        # lib_matched_path_re =
                         # test = r"{0}(\.a|_static\.a)$".format(lib_matched_string_escaped)
                         # print(test)
                         lib_matched_path_re = re.compile(r"{0}(\.a|_static\.a)$".format(lib_matched_string_escaped))
-                        # lib_matched_files = [f.name for f in os.scandir("/usr/local/cuda/lib64") if f.is_file() and os.path.splitext(f.name)[1].lower() in ".a"]
-                        # for lib_matched_file in lib_matched_files:
-                        #     print("{0}".format(lib_matched_file))
                         for f in os.scandir("/usr/local/cuda/lib64"):
                             if f.is_file() and os.path.splitext(f.name)[1].lower() in ".a" and lib_matched_path_re.match(f.name):
                                 libs_dict[ff_lib].append(f.path)
