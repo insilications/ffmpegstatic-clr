@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import glob
 import re
 import subprocess
 import sys
@@ -84,36 +85,62 @@ def main():
                             if f.is_file() and os.path.splitext(f.name)[1].lower() in ".a" and lib_matched_path_re.match(f.name):
                                 libs_dict[ff_lib].append(f.path)
                                 breakIt = True
-                                break
                                 # print("{0}".format(f.path))
+                                print("/usr/local/cuda/lib64 - {0} - {1}".format(lib, f.path))
+                                break
                         if breakIt is True:
                             continue
                         for f in os.scandir("/usr/lib64"):
                             if f.is_file() and os.path.splitext(f.name)[1].lower() in ".a" and lib_matched_path_re.match(f.name):
                                 libs_dict[ff_lib].append(f.path)
                                 breakIt = True
-                                break
                                 # print("{0}".format(f.path))
+                                print("/usr/lib64 - {0} - {1}".format(lib, f.path))
+                                # print("(f.name)[0]: {0} (f.name)[1]: {1}".format(os.path.splitext(f.name)[0], os.path.splitext(f.name)[1]))
+                                # os.path.isfile(builddir_home_dst):
+                                lib_matched_shared_cmd = f"/usr/lib64/{os.path.splitext(f.name)[0]}.so"
+                                print(lib_matched_shared_cmd)
+                                if os.path.isfile(lib_matched_shared_cmd):
+                                    process = subprocess.CompletedProcess
+                                    try:
+                                        process = subprocess.run(
+                                            f"ldd {lib_matched_shared_cmd}",
+                                            check=True,
+                                            shell=True,
+                                            stdout=subprocess.PIPE,
+                                            stderr=subprocess.STDOUT,
+                                            text=True,
+                                            universal_newlines=True,
+                                        )
+
+                                    except subprocess.CalledProcessError as err:
+                                        print(f"cmd: {err}")
+
+                                    outputVersion = process.stdout.rstrip("\n")
+                                    print(outputVersion)
+                                break
                         if breakIt is True:
                             continue
                         for f in os.scandir("/usr/lib"):
                             if f.is_file() and os.path.splitext(f.name)[1].lower() in ".a" and lib_matched_path_re.match(f.name):
                                 libs_dict[ff_lib].append(f.path)
                                 breakIt = True
-                                break
                                 # print("{0}".format(f.path))
+                                print("/usr/lib - {0} - {1}".format(lib, f.path))
+                                break
                         if breakIt is True:
                             continue
                         for f in os.scandir("/usr/nvidia/lib64"):
                             if f.is_file() and os.path.splitext(f.name)[1].lower() in ".a" and lib_matched_path_re.match(f.name):
                                 libs_dict[ff_lib].append(f.path)
                                 breakIt = True
-                                break
                                 # print("{0}".format(f.path))
+                                print("/usr/nvidia/lib64 - {0} - {1}".format(lib, f.path))
+                                break
                         if breakIt is True:
                             continue
                         libs_dict[ff_lib].append(lib)
-                print('{}_extralibs="{}"'.format(ff_lib, " ".join(libs_dict[ff_lib])))
+                # print('{}_extralibs="{}"'.format(ff_lib, " ".join(libs_dict[ff_lib])))
                 write_out(libs_file_out_file, '{}_extralibs="{}"\n'.format(ff_lib, " ".join(libs_dict[ff_lib])), "a")
     # for k, l in libs_dict.items():
     #     print("libs_dict[{0}]: {1}".format(k, l))
