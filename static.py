@@ -90,6 +90,24 @@ def main():
                                 break
                         if breakIt is True:
                             continue
+                        for f in os.scandir("/usr/nvidia/lib64"):
+                            if f.is_file() and os.path.splitext(f.name)[1].lower() in ".a" and lib_matched_path_re.match(f.name):
+                                libs_dict[ff_lib].append(f.path)
+                                breakIt = True
+                                # print("{0}".format(f.path))
+                                print("/usr/nvidia/lib64 - {0} - {1}".format(lib, f.path))
+                                break
+                        if breakIt is True:
+                            continue
+                        for f in os.scandir("/usr/lib64/haswell"):
+                            if f.is_file() and os.path.splitext(f.name)[1].lower() in ".a" and lib_matched_path_re.match(f.name):
+                                libs_dict[ff_lib].append(f.path)
+                                breakIt = True
+                                # print("{0}".format(f.path))
+                                print("/usr/lib - {0} - {1}".format(lib, f.path))
+                                break
+                        if breakIt is True:
+                            continue
                         for f in os.scandir("/usr/lib64"):
                             if f.is_file() and os.path.splitext(f.name)[1].lower() in ".a" and lib_matched_path_re.match(f.name):
                                 libs_dict[ff_lib].append(f.path)
@@ -131,15 +149,6 @@ def main():
                                 breakIt = True
                                 # print("{0}".format(f.path))
                                 print("/usr/lib - {0} - {1}".format(lib, f.path))
-                                break
-                        if breakIt is True:
-                            continue
-                        for f in os.scandir("/usr/nvidia/lib64"):
-                            if f.is_file() and os.path.splitext(f.name)[1].lower() in ".a" and lib_matched_path_re.match(f.name):
-                                libs_dict[ff_lib].append(f.path)
-                                breakIt = True
-                                # print("{0}".format(f.path))
-                                print("/usr/nvidia/lib64 - {0} - {1}".format(lib, f.path))
                                 break
                         if breakIt is True:
                             continue
