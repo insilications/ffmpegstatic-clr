@@ -104,7 +104,7 @@ def main():
                                 libs_dict[ff_lib].append(f.path)
                                 breakIt = True
                                 # print("{0}".format(f.path))
-                                print("/usr/lib - {0} - {1}".format(lib, f.path))
+                                print("/usr/lib64/haswell - {0} - {1}".format(lib, f.path))
                                 break
                         if breakIt is True:
                             continue
@@ -116,30 +116,30 @@ def main():
                                 print("/usr/lib64 - {0} - {1}".format(lib, f.path))
                                 # print("(f.name)[0]: {0} (f.name)[1]: {1}".format(os.path.splitext(f.name)[0], os.path.splitext(f.name)[1]))
                                 # os.path.isfile(builddir_home_dst):
-                                lib_matched_shared_cmd = f"/usr/lib64/{os.path.splitext(f.name)[0]}.so"
-                                print(lib_matched_shared_cmd)
-                                if os.path.isfile(lib_matched_shared_cmd):
-                                    process = subprocess.CompletedProcess
-                                    try:
-                                        process = subprocess.run(
-                                            f"ldd {lib_matched_shared_cmd}",
-                                            check=True,
-                                            shell=True,
-                                            stdout=subprocess.PIPE,
-                                            stderr=subprocess.STDOUT,
-                                            text=True,
-                                            universal_newlines=True,
-                                        )
+                                # lib_matched_shared_cmd = f"/usr/lib64/{os.path.splitext(f.name)[0]}.so"
+                                # print(lib_matched_shared_cmd)
+                                # if os.path.isfile(lib_matched_shared_cmd):
+                                #     process = subprocess.CompletedProcess
+                                #     try:
+                                #         process = subprocess.run(
+                                #             f"ldd {lib_matched_shared_cmd}",
+                                #             check=True,
+                                #             shell=True,
+                                #             stdout=subprocess.PIPE,
+                                #             stderr=subprocess.STDOUT,
+                                #             text=True,
+                                #             universal_newlines=True,
+                                #         )
 
-                                    except subprocess.CalledProcessError as err:
-                                        print(f"cmd: {err}")
-                                        sys.exit(1)
+                                #     except subprocess.CalledProcessError as err:
+                                #         print(f"cmd: {err}")
+                                #         sys.exit(1)
 
-                                    ldd_line_re = re.compile(r"(?<==>\s)[a-zA-Z0-9\.\_\+\-\/]*")
-                                    for ldd_line in process.stdout.splitlines():
-                                        ldd_line_matched = re.search(ldd_line_re, ldd_line)
-                                        if ldd_line_matched:
-                                            print(f"\t{ldd_line_matched.group(0)}")
+                                #     ldd_line_re = re.compile(r"(?<==>\s)[a-zA-Z0-9\.\_\+\-\/]*")
+                                #     for ldd_line in process.stdout.splitlines():
+                                #         ldd_line_matched = re.search(ldd_line_re, ldd_line)
+                                #         if ldd_line_matched:
+                                #             print(f"\t{ldd_line_matched.group(0)}")
                                 break
                         if breakIt is True:
                             continue
@@ -152,6 +152,7 @@ def main():
                                 break
                         if breakIt is True:
                             continue
+                        print("Not Found - {0}".format(lib))
                         libs_dict[ff_lib].append(lib)
                 # print('{}_extralibs="{}"'.format(ff_lib, " ".join(libs_dict[ff_lib])))
                 write_out(libs_file_out_file, '{}_extralibs="{}"\n'.format(ff_lib, " ".join(libs_dict[ff_lib])), "a")
