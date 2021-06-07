@@ -115,9 +115,13 @@ def main():
 
                                     except subprocess.CalledProcessError as err:
                                         print(f"cmd: {err}")
+                                        sys.exit(1)
 
-                                    outputVersion = process.stdout.rstrip("\n")
-                                    print(outputVersion)
+                                    ldd_line_re = re.compile(r"(?<==>\s)[a-zA-Z0-9\.\_\+\-\/]*")
+                                    for ldd_line in process.stdout.splitlines():
+                                        ldd_line_matched = re.search(ldd_line_re, ldd_line)
+                                        if ldd_line_matched:
+                                            print(f"\t{ldd_line_matched.group(0)}")
                                 break
                         if breakIt is True:
                             continue
