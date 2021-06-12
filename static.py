@@ -2,14 +2,9 @@
 
 import argparse
 import os
-import glob
 import re
 import subprocess
 import sys
-import textwrap
-import hashlib
-import shlex
-import mmap
 from collections import defaultdict
 
 
