@@ -47,7 +47,7 @@ def recheck_ldd(libs_dict, ff_lib, lib_ldd):
                 libs_dict[ff_lib].append(f.path)
                 # print("{0}".format(f.path))
                 # print("/usr/local/cuda/lib64 - {0} - {1}".format(lib, f.path))
-                print("\t\t\trecheck_ldd result: /usr/local/cuda/lib64 - {0} - {1}".format(lib_ldd, f.path))
+                # print("\t\t\trecheck_ldd result: /usr/local/cuda/lib64 - {0} - {1}".format(lib_ldd, f.path))
                 breakIt = True
                 break
 
@@ -58,7 +58,7 @@ def recheck_ldd(libs_dict, ff_lib, lib_ldd):
                 libs_dict[ff_lib].append(f.path)
                 # print("{0}".format(f.path))
                 # print("/usr/nvidia/lib64 - {0} - {1}".format(lib, f.path))
-                print("\t\t\trecheck_ldd result: /usr/nvidia/lib64 - {0} - {1}".format(lib_ldd, f.path))
+                # print("\t\t\trecheck_ldd result: /usr/nvidia/lib64 - {0} - {1}".format(lib_ldd, f.path))
                 breakIt = True
                 break
 
@@ -69,7 +69,7 @@ def recheck_ldd(libs_dict, ff_lib, lib_ldd):
                 libs_dict[ff_lib].append(f.path)
                 # print("{0}".format(f.path))
                 # print("/usr/lib64/haswell - {0} - {1}".format(lib, f.path))
-                print("\t\t\trecheck_ldd result: /usr/lib64/haswell - {0} - {1}".format(lib_ldd, f.path))
+                # print("\t\t\trecheck_ldd result: /usr/lib64/haswell - {0} - {1}".format(lib_ldd, f.path))
                 breakIt = True
                 break
 
@@ -79,7 +79,7 @@ def recheck_ldd(libs_dict, ff_lib, lib_ldd):
             if f.is_file() and os.path.splitext(f.name)[1].lower() in ".a" and lib_ldd_matched_path_re.match(f.name):
                 libs_dict[ff_lib].append(f.path)
                 # print("{0}".format(f.path))
-                print("\t\t\trecheck_ldd result: /usr/lib64 - {0} - {1}".format(lib_ldd, f.path))
+                # print("\t\t\trecheck_ldd result: /usr/lib64 - {0} - {1}".format(lib_ldd, f.path))
                 # print("(f.name)[0]: {0} (f.name)[1]: {1}".format(os.path.splitext(f.name)[0], os.path.splitext(f.name)[1]))
                 breakIt = True
                 break
@@ -91,7 +91,7 @@ def recheck_ldd(libs_dict, ff_lib, lib_ldd):
                 libs_dict[ff_lib].append(f.path)
                 # print("{0}".format(f.path))
                 # print("/usr/lib - {0} - {1}".format(lib, f.path))
-                print("\t\t\trecheck_ldd result: /usr/lib64 - {0} - {1}".format(lib_ldd, f.path))
+                # print("\t\t\trecheck_ldd result: /usr/lib64 - {0} - {1}".format(lib_ldd, f.path))
                 breakIt = True
                 break
         if breakIt is True:
@@ -178,7 +178,7 @@ def main():
                                         ldd_line_matched = re.search(ldd_line_re, ldd_line)
                                         if ldd_line_matched:
                                             lib_ldd = ldd_line_matched.group(0)
-                                            print(f"\trecheck_ldd /usr/local/cuda/lib64: {lib_ldd}")
+                                            # print(f"\trecheck_ldd /usr/local/cuda/lib64: {lib_ldd}")
                                             recheck_ldd(libs_dict, ff_lib, lib_ldd)
                                 break
                         if breakIt is True:
@@ -212,7 +212,7 @@ def main():
                                         ldd_line_matched = re.search(ldd_line_re, ldd_line)
                                         if ldd_line_matched:
                                             lib_ldd = ldd_line_matched.group(0)
-                                            print(f"\trecheck_ldd /usr/nvidia/lib64: {lib_ldd}")
+                                            # print(f"\trecheck_ldd /usr/nvidia/lib64: {lib_ldd}")
                                             recheck_ldd(libs_dict, ff_lib, lib_ldd)
                                 break
                         if breakIt is True:
@@ -246,7 +246,7 @@ def main():
                                         ldd_line_matched = re.search(ldd_line_re, ldd_line)
                                         if ldd_line_matched:
                                             lib_ldd = ldd_line_matched.group(0)
-                                            print(f"\trecheck_ldd /usr/lib64/haswell: {lib_ldd}")
+                                            # print(f"\trecheck_ldd /usr/lib64/haswell: {lib_ldd}")
                                             recheck_ldd(libs_dict, ff_lib, lib_ldd)
                                 break
                         if breakIt is True:
@@ -280,7 +280,7 @@ def main():
                                         ldd_line_matched = re.search(ldd_line_re, ldd_line)
                                         if ldd_line_matched:
                                             lib_ldd = ldd_line_matched.group(0)
-                                            print(f"\trecheck_ldd /usr/lib64: {lib_ldd}")
+                                            # print(f"\trecheck_ldd /usr/lib64: {lib_ldd}")
                                             recheck_ldd(libs_dict, ff_lib, lib_ldd)
                                 break
                         if breakIt is True:
@@ -314,7 +314,7 @@ def main():
                                         ldd_line_matched = re.search(ldd_line_re, ldd_line)
                                         if ldd_line_matched:
                                             lib_ldd = ldd_line_matched.group(0)
-                                            print(f"\trecheck_ldd /usr/lib: {lib_ldd}")
+                                            # print(f"\trecheck_ldd /usr/lib: {lib_ldd}")
                                             recheck_ldd(libs_dict, ff_lib, lib_ldd)
                                 break
                         if breakIt is True:
