@@ -36,7 +36,7 @@ def open_auto(*args, **kwargs):
 def recheck_ldd(libs_dict, ff_lib, lib_ldd):
     ldd_line_exclude_re = re.compile(r"\/lib(?:systemd|pthread|stdc\+\+|gcc_s|mvec|rt|GL|dl|m|c)\.so")
     if re.search(ldd_line_exclude_re, lib_ldd):
-        # print("\t\tExcluded lib_ldd line: {}".format(lib_ldd))
+        print("\t\t\tExcluded lib_ldd line: {}".format(lib_ldd))
         return
     lib_ldd_match_re = re.compile(r"(?:^\/usr\/[a-zA-Z0-9\.\_\+\-\/]*\/)([a-zA-Z0-9\.\_\+\-\/]*)(?=\.so)")
     lib_ldd_matched = re.search(lib_ldd_match_re, lib_ldd)
