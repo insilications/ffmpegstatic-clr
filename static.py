@@ -158,8 +158,33 @@ def main():
                             if f.is_file() and os.path.splitext(f.name)[1].lower() in ".a" and lib_matched_path_re.match(f.name):
                                 libs_dict[ff_lib].append(f.path)
                                 breakIt = True
-                                # print("{0}".format(f.path))
-                                # print("/usr/local/cuda/lib64 - {0} - {1}".format(lib, f.path))
+                                print("/usr/local/cuda/lib64 - {0} - {1}".format(lib, f.path))
+                                lib_matched_shared_cmd = f"/usr/local/cuda/lib64/{os.path.splitext(f.name)[0]}.so"
+                                # print(lib_matched_shared_cmd)
+                                if os.path.isfile(lib_matched_shared_cmd):
+                                    process = subprocess.CompletedProcess
+                                    try:
+                                        process = subprocess.run(
+                                            f"ldd {lib_matched_shared_cmd}",
+                                            check=True,
+                                            shell=True,
+                                            stdout=subprocess.PIPE,
+                                            stderr=subprocess.STDOUT,
+                                            text=True,
+                                            universal_newlines=True,
+                                        )
+
+                                    except subprocess.CalledProcessError as err:
+                                        print(f"cmd: {err}")
+                                        sys.exit(1)
+
+                                    ldd_line_re = re.compile(r"(?<==>\s)[a-zA-Z0-9\.\_\+\-\/]*")
+                                    for ldd_line in process.stdout.splitlines():
+                                        ldd_line_matched = re.search(ldd_line_re, ldd_line)
+                                        if ldd_line_matched:
+                                            lib_ldd = ldd_line_matched.group(0)
+                                            print(f"\trecheck_ldd /usr/local/cuda/lib64: {lib_ldd}")
+                                            recheck_ldd(libs_dict, ff_lib, lib_ldd)
                                 break
                         if breakIt is True:
                             continue
@@ -167,8 +192,33 @@ def main():
                             if f.is_file() and os.path.splitext(f.name)[1].lower() in ".a" and lib_matched_path_re.match(f.name):
                                 libs_dict[ff_lib].append(f.path)
                                 breakIt = True
-                                # print("{0}".format(f.path))
-                                # print("/usr/nvidia/lib64 - {0} - {1}".format(lib, f.path))
+                                print("/usr/nvidia/lib64 - {0} - {1}".format(lib, f.path))
+                                lib_matched_shared_cmd = f"/usr/nvidia/lib64/{os.path.splitext(f.name)[0]}.so"
+                                # print(lib_matched_shared_cmd)
+                                if os.path.isfile(lib_matched_shared_cmd):
+                                    process = subprocess.CompletedProcess
+                                    try:
+                                        process = subprocess.run(
+                                            f"ldd {lib_matched_shared_cmd}",
+                                            check=True,
+                                            shell=True,
+                                            stdout=subprocess.PIPE,
+                                            stderr=subprocess.STDOUT,
+                                            text=True,
+                                            universal_newlines=True,
+                                        )
+
+                                    except subprocess.CalledProcessError as err:
+                                        print(f"cmd: {err}")
+                                        sys.exit(1)
+
+                                    ldd_line_re = re.compile(r"(?<==>\s)[a-zA-Z0-9\.\_\+\-\/]*")
+                                    for ldd_line in process.stdout.splitlines():
+                                        ldd_line_matched = re.search(ldd_line_re, ldd_line)
+                                        if ldd_line_matched:
+                                            lib_ldd = ldd_line_matched.group(0)
+                                            print(f"\trecheck_ldd /usr/nvidia/lib64: {lib_ldd}")
+                                            recheck_ldd(libs_dict, ff_lib, lib_ldd)
                                 break
                         if breakIt is True:
                             continue
@@ -176,8 +226,33 @@ def main():
                             if f.is_file() and os.path.splitext(f.name)[1].lower() in ".a" and lib_matched_path_re.match(f.name):
                                 libs_dict[ff_lib].append(f.path)
                                 breakIt = True
-                                # print("{0}".format(f.path))
-                                # print("/usr/lib64/haswell - {0} - {1}".format(lib, f.path))
+                                print("/usr/lib64/haswell - {0} - {1}".format(lib, f.path))
+                                lib_matched_shared_cmd = f"/usr/lib64/haswell/{os.path.splitext(f.name)[0]}.so"
+                                # print(lib_matched_shared_cmd)
+                                if os.path.isfile(lib_matched_shared_cmd):
+                                    process = subprocess.CompletedProcess
+                                    try:
+                                        process = subprocess.run(
+                                            f"ldd {lib_matched_shared_cmd}",
+                                            check=True,
+                                            shell=True,
+                                            stdout=subprocess.PIPE,
+                                            stderr=subprocess.STDOUT,
+                                            text=True,
+                                            universal_newlines=True,
+                                        )
+
+                                    except subprocess.CalledProcessError as err:
+                                        print(f"cmd: {err}")
+                                        sys.exit(1)
+
+                                    ldd_line_re = re.compile(r"(?<==>\s)[a-zA-Z0-9\.\_\+\-\/]*")
+                                    for ldd_line in process.stdout.splitlines():
+                                        ldd_line_matched = re.search(ldd_line_re, ldd_line)
+                                        if ldd_line_matched:
+                                            lib_ldd = ldd_line_matched.group(0)
+                                            print(f"\trecheck_ldd /usr/lib64/haswell: {lib_ldd}")
+                                            recheck_ldd(libs_dict, ff_lib, lib_ldd)
                                 break
                         if breakIt is True:
                             continue
@@ -185,9 +260,7 @@ def main():
                             if f.is_file() and os.path.splitext(f.name)[1].lower() in ".a" and lib_matched_path_re.match(f.name):
                                 libs_dict[ff_lib].append(f.path)
                                 breakIt = True
-                                # print("{0}".format(f.path))
                                 print("/usr/lib64 - {0} - {1}".format(lib, f.path))
-                                # print("(f.name)[0]: {0} (f.name)[1]: {1}".format(os.path.splitext(f.name)[0], os.path.splitext(f.name)[1]))
                                 lib_matched_shared_cmd = f"/usr/lib64/{os.path.splitext(f.name)[0]}.so"
                                 # print(lib_matched_shared_cmd)
                                 if os.path.isfile(lib_matched_shared_cmd):
@@ -212,7 +285,7 @@ def main():
                                         ldd_line_matched = re.search(ldd_line_re, ldd_line)
                                         if ldd_line_matched:
                                             lib_ldd = ldd_line_matched.group(0)
-                                            print(f"\trecheck_ldd: {lib_ldd}")
+                                            print(f"\trecheck_ldd /usr/lib64: {lib_ldd}")
                                             recheck_ldd(libs_dict, ff_lib, lib_ldd)
                                 break
                         if breakIt is True:
@@ -221,8 +294,33 @@ def main():
                             if f.is_file() and os.path.splitext(f.name)[1].lower() in ".a" and lib_matched_path_re.match(f.name):
                                 libs_dict[ff_lib].append(f.path)
                                 breakIt = True
-                                # print("{0}".format(f.path))
-                                # print("/usr/lib - {0} - {1}".format(lib, f.path))
+                                print("/usr/lib - {0} - {1}".format(lib, f.path))
+                                lib_matched_shared_cmd = f"/usr/lib/{os.path.splitext(f.name)[0]}.so"
+                                # print(lib_matched_shared_cmd)
+                                if os.path.isfile(lib_matched_shared_cmd):
+                                    process = subprocess.CompletedProcess
+                                    try:
+                                        process = subprocess.run(
+                                            f"ldd {lib_matched_shared_cmd}",
+                                            check=True,
+                                            shell=True,
+                                            stdout=subprocess.PIPE,
+                                            stderr=subprocess.STDOUT,
+                                            text=True,
+                                            universal_newlines=True,
+                                        )
+
+                                    except subprocess.CalledProcessError as err:
+                                        print(f"cmd: {err}")
+                                        sys.exit(1)
+
+                                    ldd_line_re = re.compile(r"(?<==>\s)[a-zA-Z0-9\.\_\+\-\/]*")
+                                    for ldd_line in process.stdout.splitlines():
+                                        ldd_line_matched = re.search(ldd_line_re, ldd_line)
+                                        if ldd_line_matched:
+                                            lib_ldd = ldd_line_matched.group(0)
+                                            print(f"\trecheck_ldd /usr/lib: {lib_ldd}")
+                                            recheck_ldd(libs_dict, ff_lib, lib_ldd)
                                 break
                         if breakIt is True:
                             continue
