@@ -42,7 +42,7 @@ def main():
     EXTRALIBSfile_re = re.compile(r"(?<=EXTRALIBS-)(?:sw(?:resamp|sca)le|av(?:filter|util)|avformat|c(?:pu_init|ws2fws)|(?:avdevic|ffprob)e|postproc|avcodec|ff(?:mpeg|play))")
     EXTRALIBSfile_line_re = re.compile(r"(?<==).+$")
     EXTRALIBSfile_line_exclude_re = re.compile(r"(-L[a-zA-Z0-9_\-+\/.]*|-W[a-zA-Z0-9_\-+\/.,]*)")
-    EXTRALIBSfile_line_exclude_so_re = re.compile(r"\-(?:l(?:pthread|stdc\+\+|gcc|rt|GL|dl|[cm])|pthread)")
+    EXTRALIBSfile_line_exclude_so_re = re.compile(r"\-(?:l(?:pthread|stdc\+\+|gcc|rt|GL|dl|[cm])|pthread)(?=\b)")
 
     EXTRALIBSfile_line_lib_re = re.compile(r"(?<=-l)[a-zA-Z0-9_\-+\/.]*")
     libs_dict = defaultdict(list)
@@ -66,12 +66,12 @@ def main():
                     breakIt = False
                     if re.search(EXTRALIBSfile_line_exclude_re, lib):
                         libs_dict[ff_lib].append(lib)
+                        print("Excluded: {}".format(lib))
                         continue
-                        # print("exclude: {}".format(lib))
                     if re.search(EXTRALIBSfile_line_exclude_so_re, lib):
                         libs_dict[ff_lib].append(lib)
+                        print("Excluded shared: {}".format(lib))
                         continue
-                        # print("exclude: {}".format(lib))
                     if re.search(EXTRALIBSfile_line_lib_re, lib):
                         lib_matched = re.search(EXTRALIBSfile_line_lib_re, lib).group(0)
                         lib_matched_string = "lib{}".format(lib_matched)
