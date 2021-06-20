@@ -323,7 +323,6 @@ def main():
                         libs_dict[ff_lib].append(lib)
                 # print('{}_extralibs="{}"'.format(ff_lib, " ".join(libs_dict[ff_lib])))
                 write_out(libs_file_out_file, '{}_extralibs="{}"\n'.format(ff_lib, " ".join(libs_dict[ff_lib])), "a")
-    #input("Press any key to terminate the program")
     # for k, l in libs_dict.items():
     #     print("libs_dict[{0}]: {1}".format(k, l))
 
