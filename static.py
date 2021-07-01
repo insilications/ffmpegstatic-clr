@@ -325,6 +325,7 @@ def main():
                 write_out(libs_file_out_file, '{}_extralibs="{}"\n'.format(ff_lib, " ".join(libs_dict[ff_lib])), "a")
     # for k, l in libs_dict.items():
     #     print("libs_dict[{0}]: {1}".format(k, l))
+    # input("test")
 
 
 if __name__ == "__main__":
